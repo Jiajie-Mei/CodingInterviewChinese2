@@ -18,6 +18,10 @@ https://github.com/zhedahht/CodingInterviewChinese2/blob/master/LICENSE.txt)
 // 那么对应的输出是重复的数字2或者3。
 
 #include <cstdio>
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
 
 // 参数:
 //        numbers:     一个整数数组
@@ -26,7 +30,59 @@ https://github.com/zhedahht/CodingInterviewChinese2/blob/master/LICENSE.txt)
 // 返回值:             
 //        true  - 输入有效，并且数组中存在重复的数字
 //        false - 输入无效，或者数组中没有重复的数字
-bool duplicate(int numbers[], int length, int* duplication)
+
+bool check_input(int numbers[], int length) {
+    if(numbers == nullptr || length <= 0)
+        return false;
+
+    for(int i = 0; i < length; ++i)
+    {
+        if(numbers[i] < 0 || numbers[i] > length - 1)
+            return false;
+    }
+    return true;
+}
+
+bool duplicate_hash(int numbers[], int length, int* duplication) {
+    
+    if(!check_input(numbers, length))
+        return false;
+
+    unordered_set<int> set_appear;
+
+    for(int i = 0; i < length; i++) {
+        if(set_appear.count(numbers[i]) == 1) {
+            *duplication = numbers[i];
+            return true;
+        }
+        set_appear.insert(numbers[i]);
+    }
+    return false;
+}
+
+bool duplicate_swap(int numbers[], int length, int* duplication) {
+    if(!check_input(numbers, length))
+        return false;
+    
+    for(int i = 0; i < length; i++) {
+        while(numbers[i] != i) {
+            if(numbers[i] == numbers[numbers[i]]) {
+                *duplication = numbers[i];
+                return true;
+            }
+
+            // swap elements at i and numbers[i]
+            int temp = numbers[numbers[i]];
+            numbers[numbers[i]] = numbers[i];
+            numbers[i] = temp;
+        }
+    }
+    return false;
+}
+
+bool (*duplicate)(int*, int, int*) = duplicate_swap;
+
+bool true_duplicate(int numbers[], int length, int* duplication)
 {
     if(numbers == nullptr || length <= 0)
         return false;
@@ -140,7 +196,7 @@ void test6()
     test("Test6", numbers, 0, duplications, sizeof(duplications) / sizeof(int), false);
 }
 
-void main()
+int main()
 {
     test1();
     test2();

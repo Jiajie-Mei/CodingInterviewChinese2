@@ -28,7 +28,36 @@ int countRange(const int* numbers, int length, int start, int end);
 // 返回值:             
 //        正数  - 输入有效，并且数组中存在重复的数字，返回值为重复的数字
 //        负数  - 输入无效，或者数组中没有重复的数字
-int getDuplication(const int* numbers, int length)
+
+bool check_input(const int* numbers, int length) {
+    if(numbers == nullptr || length < 2)
+        return false;
+    for(int i = 0; i < length; i++)
+        if(numbers[i] < 1 || numbers[i] > length - 1)
+            return false;
+    return true;
+}
+
+int copy_based(const int* numbers, int length) {
+    if(!check_input(numbers, length))
+        return -1;
+    
+    int *new_numbers = new int[length];
+    for(int i = 0; i < length; i++)
+        new_numbers[i] = -1;
+    for(int i = 0; i < length; i++) {
+        if(new_numbers[numbers[i]] != -1)
+            return numbers[i];
+        new_numbers[numbers[i]] = numbers[i];
+    }
+    return -1;
+}
+
+
+int (*getDuplication)(const int*, int) = copy_based;
+
+
+int true_getDuplication(const int* numbers, int length)
 {
     if(numbers == nullptr || length <= 0)
         return -1;
@@ -162,7 +191,7 @@ void test10()
     test("test10", numbers, 0, duplications, sizeof(duplications) / sizeof(int));
 }
 
-void main()
+int main()
 {
     test1();
     test2();
