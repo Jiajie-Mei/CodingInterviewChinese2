@@ -8,75 +8,106 @@ https://github.com/zhedahht/CodingInterviewChinese2/blob/master/LICENSE.txt)
 *******************************************************************/
 
 //==================================================================
-// ¡¶½£Ö¸Offer¡ª¡ªÃûÆóÃæÊÔ¹Ù¾«½²µäĞÍ±à³ÌÌâ¡·´úÂë
-// ×÷Õß£ººÎº£ÌÎ
+// ï¿½ï¿½ï¿½ï¿½Ö¸Offerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¹Ù¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í±ï¿½ï¿½ï¿½â¡·ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ß£ï¿½ï¿½Îºï¿½ï¿½ï¿½
 //==================================================================
 
-// ÃæÊÔÌâ3£¨¶ş£©£º²»ĞŞ¸ÄÊı×éÕÒ³öÖØ¸´µÄÊı×Ö
-// ÌâÄ¿£ºÔÚÒ»¸ö³¤¶ÈÎªn+1µÄÊı×éÀïµÄËùÓĞÊı×Ö¶¼ÔÚ1µ½nµÄ·¶Î§ÄÚ£¬ËùÒÔÊı×éÖĞÖÁ
-// ÉÙÓĞÒ»¸öÊı×ÖÊÇÖØ¸´µÄ¡£ÇëÕÒ³öÊı×éÖĞÈÎÒâÒ»¸öÖØ¸´µÄÊı×Ö£¬µ«²»ÄÜĞŞ¸ÄÊäÈëµÄ
-// Êı×é¡£ÀıÈç£¬Èç¹ûÊäÈë³¤¶ÈÎª8µÄÊı×é{2, 3, 5, 4, 3, 2, 6, 7}£¬ÄÇÃ´¶ÔÓ¦µÄ
-// Êä³öÊÇÖØ¸´µÄÊı×Ö2»òÕß3¡£
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªn+1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½1ï¿½ï¿½nï¿½Ä·ï¿½Î§ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½é¡£ï¿½ï¿½ï¿½ç£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë³¤ï¿½ï¿½Îª8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{2, 3, 5, 4, 3, 2, 6, 7}ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Ó¦ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½
 
 #include <iostream>
 
-int countRange(const int* numbers, int length, int start, int end);
+int countRange(const int *numbers, int length, int start, int end);
 
-// ²ÎÊı:
-//        numbers:     Ò»¸öÕûÊıÊı×é
-//        length:      Êı×éµÄ³¤¶È
-// ·µ»ØÖµ:             
-//        ÕıÊı  - ÊäÈëÓĞĞ§£¬²¢ÇÒÊı×éÖĞ´æÔÚÖØ¸´µÄÊı×Ö£¬·µ»ØÖµÎªÖØ¸´µÄÊı×Ö
-//        ¸ºÊı  - ÊäÈëÎŞĞ§£¬»òÕßÊı×éÖĞÃ»ÓĞÖØ¸´µÄÊı×Ö
+// ï¿½ï¿½ï¿½ï¿½:
+//        numbers:     Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        length:      ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½Öµ:
+//        ï¿½ï¿½ï¿½ï¿½  - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        ï¿½ï¿½ï¿½ï¿½  - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-bool check_input(const int* numbers, int length) {
-    if(numbers == nullptr || length < 2)
+bool check_input(const int *numbers, int length)
+{
+    if (numbers == nullptr || length < 2)
         return false;
-    for(int i = 0; i < length; i++)
-        if(numbers[i] < 1 || numbers[i] > length - 1)
+    for (int i = 0; i < length; i++)
+        if (numbers[i] < 1 || numbers[i] > length - 1)
             return false;
     return true;
 }
 
-int copy_based(const int* numbers, int length) {
-    if(!check_input(numbers, length))
+int copy_based(const int *numbers, int length)
+{
+    if (!check_input(numbers, length))
         return -1;
-    
+
     int *new_numbers = new int[length];
-    for(int i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
         new_numbers[i] = -1;
-    for(int i = 0; i < length; i++) {
-        if(new_numbers[numbers[i]] != -1)
+    for (int i = 0; i < length; i++)
+    {
+        if (new_numbers[numbers[i]] != -1)
             return numbers[i];
         new_numbers[numbers[i]] = numbers[i];
     }
     return -1;
 }
 
-
-int (*getDuplication)(const int*, int) = copy_based;
-
-
-int true_getDuplication(const int* numbers, int length)
+int count(const int *numbers, int start, int end, int length)
 {
-    if(numbers == nullptr || length <= 0)
+    int total = 0;
+    for (int i = 0; i < length; i++)
+        if (numbers[i] >= start && numbers[i] <= end)
+            total++;
+    return total;
+}
+
+int binary_search(const int *numbers, int length)
+{
+    if (!check_input(numbers, length))
+        return -1;
+
+    int start = 1, end = length - 1;
+
+    while (start <= end)
+    {
+        int middle = (end - start) / 2 + start;
+        int counter = count(numbers, start, middle, length);
+
+        if (counter > middle - start + 1) {
+            if(middle == start)
+                return start;  // this is assured to be executed.
+            end = middle;
+        } else
+            start = middle + 1;
+    }
+}
+
+int (*getDuplication)(const int *, int) = binary_search;
+
+int true_getDuplication(const int *numbers, int length)
+{
+    if (numbers == nullptr || length <= 0)
         return -1;
 
     int start = 1;
     int end = length - 1;
-    while(end >= start)
+    while (end >= start)
     {
         int middle = ((end - start) >> 1) + start;
         int count = countRange(numbers, length, start, middle);
-        if(end == start)
+        if (end == start)
         {
-            if(count > 1)
+            if (count > 1)
                 return start;
             else
                 break;
         }
 
-        if(count > (middle - start + 1))
+        if (count > (middle - start + 1))
             end = middle;
         else
             start = middle + 1;
@@ -84,25 +115,25 @@ int true_getDuplication(const int* numbers, int length)
     return -1;
 }
 
-int countRange(const int* numbers, int length, int start, int end)
+int countRange(const int *numbers, int length, int start, int end)
 {
-    if(numbers == nullptr)
+    if (numbers == nullptr)
         return 0;
 
     int count = 0;
-    for(int i = 0; i < length; i++)
-        if(numbers[i] >= start && numbers[i] <= end)
+    for (int i = 0; i < length; i++)
+        if (numbers[i] >= start && numbers[i] <= end)
             ++count;
     return count;
 }
 
-// ====================²âÊÔ´úÂë====================
-void test(const char* testName, int* numbers, int length, int* duplications, int dupLength)
+// ====================ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½====================
+void test(const char *testName, int *numbers, int length, int *duplications, int dupLength)
 {
     int result = getDuplication(numbers, length);
-    for(int i = 0; i < dupLength; ++i)
+    for (int i = 0; i < dupLength; ++i)
     {
-        if(result == duplications[i])
+        if (result == duplications[i])
         {
             std::cout << testName << " passed." << std::endl;
             return;
@@ -111,83 +142,83 @@ void test(const char* testName, int* numbers, int length, int* duplications, int
     std::cout << testName << " FAILED." << std::endl;
 }
 
-// ¶à¸öÖØ¸´µÄÊı×Ö
+// ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test1()
 {
-    int numbers[] = { 2, 3, 5, 4, 3, 2, 6, 7 };
-    int duplications[] = { 2, 3 };
+    int numbers[] = {2, 3, 5, 4, 3, 2, 6, 7};
+    int duplications[] = {2, 3};
     test("test1", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// Ò»¸öÖØ¸´µÄÊı×Ö
+// Ò»ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test2()
 {
-    int numbers[] = { 3, 2, 1, 4, 4, 5, 6, 7 };
-    int duplications[] = { 4 };
+    int numbers[] = {3, 2, 1, 4, 4, 5, 6, 7};
+    int duplications[] = {4};
     test("test2", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// ÖØ¸´µÄÊı×ÖÊÇÊı×éÖĞ×îĞ¡µÄÊı×Ö
+// ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test3()
 {
-    int numbers[] = { 1, 2, 3, 4, 5, 6, 7, 1, 8 };
-    int duplications[] = { 1 };
+    int numbers[] = {1, 2, 3, 4, 5, 6, 7, 1, 8};
+    int duplications[] = {1};
     test("test3", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// ÖØ¸´µÄÊı×ÖÊÇÊı×éÖĞ×î´óµÄÊı×Ö
+// ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test4()
 {
-    int numbers[] = { 1, 7, 3, 4, 5, 6, 8, 2, 8 };
-    int duplications[] = { 8 };
+    int numbers[] = {1, 7, 3, 4, 5, 6, 8, 2, 8};
+    int duplications[] = {8};
     test("test4", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// Êı×éÖĞÖ»ÓĞÁ½¸öÊı×Ö
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test5()
 {
-    int numbers[] = { 1, 1 };
-    int duplications[] = { 1 };
+    int numbers[] = {1, 1};
+    int duplications[] = {1};
     test("test5", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// ÖØ¸´µÄÊı×ÖÎ»ÓÚÊı×éµ±ÖĞ
+// ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½éµ±ï¿½ï¿½
 void test6()
 {
-    int numbers[] = { 3, 2, 1, 3, 4, 5, 6, 7 };
-    int duplications[] = { 3 };
+    int numbers[] = {3, 2, 1, 3, 4, 5, 6, 7};
+    int duplications[] = {3};
     test("test6", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// ¶à¸öÖØ¸´µÄÊı×Ö
+// ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test7()
 {
-    int numbers[] = { 1, 2, 2, 6, 4, 5, 6 };
-    int duplications[] = { 2, 6 };
+    int numbers[] = {1, 2, 2, 6, 4, 5, 6};
+    int duplications[] = {2, 6};
     test("test7", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// Ò»¸öÊı×ÖÖØ¸´Èı´Î
+// Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
 void test8()
 {
-    int numbers[] = { 1, 2, 2, 6, 4, 5, 2 };
-    int duplications[] = { 2 };
+    int numbers[] = {1, 2, 2, 6, 4, 5, 2};
+    int duplications[] = {2};
     test("test8", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// Ã»ÓĞÖØ¸´µÄÊı×Ö
+// Ã»ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test9()
 {
-    int numbers[] = { 1, 2, 6, 4, 5, 3 };
-    int duplications[] = { -1 };
+    int numbers[] = {1, 2, 6, 4, 5, 3};
+    int duplications[] = {-1};
     test("test9", numbers, sizeof(numbers) / sizeof(int), duplications, sizeof(duplications) / sizeof(int));
 }
 
-// ÎŞĞ§µÄÊäÈë
+// ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void test10()
 {
-    int* numbers = nullptr;
-    int duplications[] = { -1 };
+    int *numbers = nullptr;
+    int duplications[] = {-1};
     test("test10", numbers, 0, duplications, sizeof(duplications) / sizeof(int));
 }
 
