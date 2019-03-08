@@ -19,7 +19,48 @@ https://github.com/zhedahht/CodingInterviewChinese2/blob/master/LICENSE.txt)
 
 #include <cstdio>
 
-bool Find(int* matrix, int rows, int columns, int number)
+bool my_Find_upright(int* matrix, int rows, int columns, int number) {
+
+    int i = 0, j = columns - 1;
+
+    if(matrix == nullptr || rows < 1 || columns < 1)
+        return false;
+
+    while(i < rows && j >= 0) {
+        int position = i * columns + j;
+        if (matrix[position] == number)
+            return true;
+        else if(matrix[position] > number)
+            j--;
+        else
+            i++;
+    }
+    return false;
+}
+
+bool my_Find_downleft(int* matrix, int rows, int columns, int number) {
+
+    int i = rows - 1, j = 0;
+
+    if(matrix == nullptr || rows < 1 || columns < 1)
+        return false;
+
+    while(i >= 0 && j < columns) {
+        int position = i * columns + j;
+        if (matrix[position] == number)
+            return true;
+        else if(matrix[position] > number)
+            i--;
+        else
+            j++;
+    }
+    return false;
+}
+
+bool (*Find)(int *matrix, int rows, int columns, int number) = my_Find_downleft;
+
+
+bool true_Find(int* matrix, int rows, int columns, int number)
 {
     bool found = false;
 

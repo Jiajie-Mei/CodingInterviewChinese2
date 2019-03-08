@@ -19,8 +19,47 @@ https://github.com/zhedahht/CodingInterviewChinese2/blob/master/LICENSE.txt)
 #include <cstdio>
 #include <cstring>
 
+void vanilla_ReplaceBlank(char str[], int length) {
+
+    if(str == nullptr || strlen(str) > length)
+        return;
+
+    for(int i = 0; i < strlen(str); i++) {
+        if(str[i] == ' ' && strlen(str) + 2 < length) {
+
+            for(int j = strlen(str); j > i; j--)
+                str[j + 2] = str[j];
+            str[i++] = '%', str[i++] = '2', str[i] = '0';
+        }
+    }
+}
+
+void backward_ReplaceBlank(char str[], int length) {
+    if(str == nullptr || strlen(str) > length) 
+        return;
+    
+    int num_spaces = 0;
+    for(int i = 0; i < strlen(str); i++)
+        num_spaces += str[i] == ' ';
+    
+    int new_length = num_spaces * 2 + strlen(str) + 1;  // include null terminator
+    if(new_length > length)
+        return;
+
+    for(int i = strlen(str), j = new_length - 1; i >= 0 && j >= 0; i--, j--) {
+        if(str[i] == ' ') {
+            str[j--] = '0', str[j--] = '2', str[j] = '%';
+        } else {
+            str[j] = str[i];
+        }
+    }
+}
+
+void (*ReplaceBlank)(char str[], int length) = backward_ReplaceBlank;
+
+
 /*length 为字符数组str的总容量，大于或等于字符串str的实际长度*/
-void ReplaceBlank(char str[], int length)
+void true_ReplaceBlank(char str[], int length)
 {
     if(str == nullptr && length <= 0)
         return;
